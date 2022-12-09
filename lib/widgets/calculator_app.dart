@@ -8,11 +8,13 @@ class CalculatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Calculator',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(fontSize: 24, color: Colors.white70),
+        ),
       ),
-      home: const Calculator(title: 'Flutter Demo Home Page'),
+      home: const Calculator(),
     );
   }
 }
