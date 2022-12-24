@@ -12,6 +12,7 @@ class CalculatorApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: const TextTheme(
           bodyText1: TextStyle(fontSize: 24, color: Colors.white70),
+          bodyText2: TextStyle(fontSize: 48, color: Colors.white70),
         ),
       ),
       home: const Calculator(),
