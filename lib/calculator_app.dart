@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calculator/widgets/calculator.dart';
+import 'package:flutter_calculator/widgets/main_screen.dart';
 
 class CalculatorApp extends StatelessWidget {
   const CalculatorApp({super.key});
