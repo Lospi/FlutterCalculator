@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_calculator/widgets/current_result_cubit.dart';
+import 'package:flutter_calculator/widgets/calculator_cubit.dart';
 
 class InputView extends StatelessWidget {
   const InputView({
@@ -22,7 +22,7 @@ class InputView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              BlocBuilder<CurrentResultCubit, CurrentResultLoaded>(
+              BlocBuilder<CalculatorCubit, CalculatorState>(
                 buildWhen: (previous, current) =>
                     previous.currentResult != current.currentResult ||
                     previous.pendingMathOperation !=
@@ -37,7 +37,7 @@ class InputView extends StatelessWidget {
                 color: Colors.white10,
                 thickness: 2,
               ),
-              BlocBuilder<CurrentResultCubit, CurrentResultLoaded>(
+              BlocBuilder<CalculatorCubit, CalculatorState>(
                 builder: (context, state) {
                   return AutoSizeText(
                     textAlign: TextAlign.end,

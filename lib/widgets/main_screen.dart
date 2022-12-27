@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_calculator/widgets/current_result_cubit.dart';
+import 'package:flutter_calculator/widgets/calculator_cubit.dart';
 import 'package:flutter_calculator/widgets/input_view.dart';
 import 'package:flutter_calculator/widgets/keyboard.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +16,7 @@ class Calculator extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Center(
           child: BlocProvider(
-            create: (context) => GetIt.I.get<CurrentResultCubit>(),
+            create: (context) => GetIt.I.get<CalculatorCubit>(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,

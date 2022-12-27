@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_calculator/domain/entities/operation.dart';
 
-part 'current_result_state.dart';
+part 'calculator_state.dart';
 
-class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
-  CurrentResultCubit()
-      : super(const CurrentResultLoaded(
+class CalculatorCubit extends Cubit<CalculatorState> {
+  CalculatorCubit()
+      : super(const CalculatorState(
           pendingMathOperation: null,
           pendingNewInput: false,
           isAllClear: true,
@@ -17,7 +17,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
   void setInput(String input) {
     final currentState = state;
     if (currentState.isAllClear) {
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: false,
         pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
@@ -25,7 +25,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
         currentResult: "",
       ));
     } else if (currentState.pendingNewInput) {
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: false,
         pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
@@ -37,7 +37,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
       if (newInput.length > 16) {
         newInput = newInput.replaceRange(16, newInput.length, '');
       }
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: false,
         pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
@@ -74,7 +74,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
     if (newInput.length > 16) {
       newInput = newInput.replaceRange(16, newInput.length, '');
     }
-    emit(CurrentResultLoaded(
+    emit(CalculatorState(
       pendingNewInput: false,
       pendingMathOperation: currentState.pendingMathOperation,
       isAllClear: false,
@@ -86,7 +86,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
   void setMathematicalOperation(MathematicalOperations operation) {
     if (state.pendingMathOperation != null) {
       if (state.pendingNewInput) {
-        emit(CurrentResultLoaded(
+        emit(CalculatorState(
           pendingNewInput: true,
           pendingMathOperation: operation,
           isAllClear: false,
@@ -112,7 +112,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
           case null:
             break;
         }
-        emit(CurrentResultLoaded(
+        emit(CalculatorState(
           pendingNewInput: true,
           pendingMathOperation: operation,
           isAllClear: false,
@@ -121,7 +121,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
         ));
       }
     } else {
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: true,
         pendingMathOperation: operation,
         isAllClear: false,
@@ -134,7 +134,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
   void changeInputSign() {
     final currentState = state;
     final inputValue = num.parse(currentState.currentInput);
-    emit(CurrentResultLoaded(
+    emit(CalculatorState(
       pendingNewInput: currentState.pendingNewInput,
       pendingMathOperation: currentState.pendingMathOperation,
       isAllClear: false,
@@ -146,7 +146,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
 
   void addDecimalToInput() {
     final currentState = state;
-    emit(CurrentResultLoaded(
+    emit(CalculatorState(
       pendingNewInput: currentState.pendingNewInput,
       pendingMathOperation: currentState.pendingMathOperation,
       isAllClear: false,
@@ -157,7 +157,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
 
   void setInputAsPercent() {
     final currentState = state;
-    emit(CurrentResultLoaded(
+    emit(CalculatorState(
       pendingNewInput: currentState.pendingNewInput,
       pendingMathOperation: currentState.pendingMathOperation,
       isAllClear: false,
@@ -171,7 +171,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
 
     if (currentState.pendingMathOperation != null &&
         currentState.pendingNewInput == false) {
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: true,
         pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
@@ -179,7 +179,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
         currentResult: currentState.currentResult,
       ));
     } else {
-      emit(const CurrentResultLoaded(
+      emit(const CalculatorState(
         pendingNewInput: false,
         pendingMathOperation: null,
         isAllClear: true,
@@ -214,7 +214,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
         case null:
           break;
       }
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: true,
         pendingMathOperation: null,
         isAllClear: false,
@@ -222,7 +222,7 @@ class CurrentResultCubit extends Cubit<CurrentResultLoaded> {
         currentResult: "",
       ));
     } else {
-      emit(CurrentResultLoaded(
+      emit(CalculatorState(
         pendingNewInput: currentState.pendingNewInput,
         pendingMathOperation: null,
         isAllClear: false,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_calculator/domain/entities/operation.dart';
-import 'package:flutter_calculator/widgets/current_result_cubit.dart';
+import 'package:flutter_calculator/widgets/calculator_cubit.dart';
 import 'package:flutter_calculator/widgets/keyboard_button.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,7 +20,7 @@ class Keyboard extends StatelessWidget {
         mainAxisSpacing: 5,
         crossAxisSpacing: 4,
         children: [
-          BlocSelector<CurrentResultCubit, CurrentResultLoaded, String>(
+          BlocSelector<CalculatorCubit, CalculatorState, String>(
             selector: (state) => state.isAllClear ? "AC" : "C",
             builder: (context, text) => KeyboardButton(
               crossAxisSize: 1,

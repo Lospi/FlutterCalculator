@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calculator/domain/entities/operation.dart';
-import 'package:flutter_calculator/widgets/current_result_cubit.dart';
+import 'package:flutter_calculator/widgets/calculator_cubit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get_it/get_it.dart';
 
@@ -29,7 +29,7 @@ class KeyboardButton extends StatelessWidget {
           splashColor: Colors.black45,
           highlightColor: Colors.white10,
           onTap: () {
-            final cubit = GetIt.I.get<CurrentResultCubit>();
+            final cubit = GetIt.I.get<CalculatorCubit>();
             final buttonOperation = operation;
             if (buttonOperation is OperationInput) {
               cubit.setInput(buttonOperation.input);

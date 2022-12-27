@@ -1,13 +1,13 @@
-part of 'current_result_cubit.dart';
+part of 'calculator_cubit.dart';
 
-class CurrentResultLoaded extends Equatable {
+class CalculatorState extends Equatable {
   final String currentInput;
   final String currentResult;
   final bool isAllClear;
   final bool pendingNewInput;
   final MathematicalOperations? pendingMathOperation;
 
-  const CurrentResultLoaded({
+  const CalculatorState({
     required this.pendingNewInput,
     required this.pendingMathOperation,
     required this.isAllClear,
@@ -25,14 +25,14 @@ class CurrentResultLoaded extends Equatable {
         pendingNewInput,
       ];
 
-  CurrentResultLoaded copyWith({
+  CalculatorState copyWith({
     String? currentInput,
     String? currentResult,
     bool? isAllClear,
     bool? pendingNewInput,
     MathematicalOperations? pendingMathOperation,
   }) =>
-      CurrentResultLoaded(
+      CalculatorState(
         pendingNewInput: pendingNewInput ?? this.pendingNewInput,
         pendingMathOperation: pendingMathOperation ?? this.pendingMathOperation,
         isAllClear: isAllClear ?? this.isAllClear,
