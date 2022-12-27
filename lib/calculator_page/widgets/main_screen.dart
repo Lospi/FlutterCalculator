@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_calculator/widgets/calculator_cubit.dart';
-import 'package:flutter_calculator/widgets/input_view.dart';
-import 'package:flutter_calculator/widgets/keyboard.dart';
+import 'package:flutter_calculator/calculator_page/cubits/calculator/calculator_cubit.dart';
+import 'package:flutter_calculator/calculator_page/widgets/input_view.dart';
+import 'package:flutter_calculator/calculator_page/widgets/keyboard.dart';
 import 'package:get_it/get_it.dart';
 
 class Calculator extends StatelessWidget {
