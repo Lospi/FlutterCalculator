@@ -17,32 +17,27 @@ class CalculatorCubit extends Cubit<CalculatorState> {
   void setInput(String input) {
     final currentState = state;
     if (currentState.isAllClear) {
-      emit(CalculatorState(
+      emit(state.copyWith(
         pendingNewInput: false,
-        pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
         currentInput: input,
         currentResult: "",
       ));
     } else if (currentState.pendingNewInput) {
-      emit(CalculatorState(
+      emit(state.copyWith(
         pendingNewInput: false,
-        pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
         currentInput: input,
-        currentResult: currentState.currentResult,
       ));
     } else {
       var newInput = currentState.currentInput + input;
       if (newInput.length > 16) {
         newInput = newInput.replaceRange(16, newInput.length, '');
       }
-      emit(CalculatorState(
+      emit(state.copyWith(
         pendingNewInput: false,
-        pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
         currentInput: newInput,
-        currentResult: currentState.currentResult,
       ));
     }
   }
@@ -74,58 +69,62 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     if (newInput.length > 16) {
       newInput = newInput.replaceRange(16, newInput.length, '');
     }
-    emit(CalculatorState(
+    emit(state.copyWith(
       pendingNewInput: false,
-      pendingMathOperation: currentState.pendingMathOperation,
       isAllClear: false,
       currentInput: newInput,
-      currentResult: currentState.currentResult,
     ));
   }
 
   void setMathematicalOperation(MathematicalOperations operation) {
     if (state.pendingMathOperation != null) {
       if (state.pendingNewInput) {
-        emit(CalculatorState(
+        emit(state.copyWith(
           pendingNewInput: true,
           pendingMathOperation: operation,
           isAllClear: false,
-          currentInput: state.currentInput,
-          currentResult: state.currentInput,
         ));
       } else {
         num newResult = 0;
         final currentResult = num.parse(state.currentResult);
+        final currentInput = num.parse(state.currentInput);
         switch (state.pendingMathOperation) {
           case MathematicalOperations.add:
-            newResult = currentResult + num.parse(state.currentInput);
+            newResult = currentResult + currentInput;
             break;
           case MathematicalOperations.subtract:
-            newResult = currentResult - num.parse(state.currentInput);
+            newResult = currentResult - currentInput;
             break;
           case MathematicalOperations.multiply:
-            newResult = currentResult * num.parse(state.currentInput);
+            newResult = currentResult * currentInput;
             break;
           case MathematicalOperations.divide:
-            newResult = currentResult / num.parse(state.currentInput);
+            newResult = currentResult / currentInput;
             break;
           case null:
             break;
         }
-        emit(CalculatorState(
-          pendingNewInput: true,
-          pendingMathOperation: operation,
-          isAllClear: false,
-          currentInput: state.currentInput,
-          currentResult: newResult.toString(),
-        ));
+        if (newResult.isNaN || newResult.isInfinite) {
+          emit(state.copyWith(
+            pendingNewInput: true,
+            pendingMathOperation: null,
+            isAllClear: true,
+            currentResult: "Shit doesn't add up",
+          ));
+        } else {
+          emit(state.copyWith(
+            pendingNewInput: true,
+            pendingMathOperation: operation,
+            isAllClear: false,
+            currentResult: newResult.toString(),
+          ));
+        }
       }
     } else {
-      emit(CalculatorState(
+      emit(state.copyWith(
         pendingNewInput: true,
         pendingMathOperation: operation,
         isAllClear: false,
-        currentInput: state.currentInput,
         currentResult: state.currentInput,
       ));
     }
@@ -134,35 +133,23 @@ class CalculatorCubit extends Cubit<CalculatorState> {
   void changeInputSign() {
     final currentState = state;
     final inputValue = num.parse(currentState.currentInput);
-    emit(CalculatorState(
-      pendingNewInput: currentState.pendingNewInput,
-      pendingMathOperation: currentState.pendingMathOperation,
-      isAllClear: false,
+    emit(state.copyWith(
       currentInput:
           inputValue < 0 ? inputValue.abs().toString() : '-$inputValue',
-      currentResult: currentState.currentResult,
     ));
   }
 
   void addDecimalToInput() {
     final currentState = state;
-    emit(CalculatorState(
-      pendingNewInput: currentState.pendingNewInput,
-      pendingMathOperation: currentState.pendingMathOperation,
-      isAllClear: false,
+    emit(state.copyWith(
       currentInput: (num.parse(currentState.currentInput) / 100).toString(),
-      currentResult: currentState.currentResult,
     ));
   }
 
   void setInputAsPercent() {
     final currentState = state;
-    emit(CalculatorState(
-      pendingNewInput: currentState.pendingNewInput,
-      pendingMathOperation: currentState.pendingMathOperation,
-      isAllClear: false,
+    emit(state.copyWith(
       currentInput: (num.parse(currentState.currentInput) / 100).toString(),
-      currentResult: currentState.currentResult,
     ));
   }
 
@@ -171,12 +158,10 @@ class CalculatorCubit extends Cubit<CalculatorState> {
 
     if (currentState.pendingMathOperation != null &&
         currentState.pendingNewInput == false) {
-      emit(CalculatorState(
+      emit(state.copyWith(
         pendingNewInput: true,
-        pendingMathOperation: currentState.pendingMathOperation,
         isAllClear: false,
         currentInput: "0",
-        currentResult: currentState.currentResult,
       ));
     } else {
       emit(const CalculatorState(
@@ -194,39 +179,45 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     num newResult = 0;
 
     if (currentState.pendingMathOperation != null) {
+      final currentResult = num.parse(currentState.currentResult);
+      final currentInput = num.parse(currentState.currentInput);
       switch (currentState.pendingMathOperation) {
         case MathematicalOperations.add:
-          newResult = num.parse(currentState.currentResult) +
-              num.parse(currentState.currentInput);
+          newResult = currentResult + currentInput;
           break;
         case MathematicalOperations.subtract:
-          newResult = num.parse(currentState.currentResult) -
-              num.parse(currentState.currentInput);
+          newResult = currentResult - currentInput;
           break;
         case MathematicalOperations.multiply:
-          newResult = num.parse(currentState.currentResult) *
-              num.parse(currentState.currentInput);
+          newResult = currentResult * currentInput;
           break;
         case MathematicalOperations.divide:
-          newResult = num.parse(currentState.currentResult) /
-              num.parse(currentState.currentInput);
+          newResult = currentResult / currentInput;
           break;
         case null:
           break;
       }
-      emit(CalculatorState(
-        pendingNewInput: true,
-        pendingMathOperation: null,
-        isAllClear: false,
-        currentInput: newResult.toString(),
-        currentResult: "",
-      ));
+      if (newResult.isNaN || newResult.isInfinite) {
+        emit(const CalculatorState(
+          pendingNewInput: true,
+          pendingMathOperation: null,
+          isAllClear: true,
+          currentInput: "Shit doesn't add up",
+          currentResult: "",
+        ));
+      } else {
+        emit(CalculatorState(
+          pendingNewInput: true,
+          pendingMathOperation: null,
+          isAllClear: false,
+          currentInput: newResult.toString(),
+          currentResult: "",
+        ));
+      }
     } else {
-      emit(CalculatorState(
-        pendingNewInput: currentState.pendingNewInput,
+      emit(state.copyWith(
         pendingMathOperation: null,
         isAllClear: false,
-        currentInput: currentState.currentInput,
         currentResult: "",
       ));
     }
