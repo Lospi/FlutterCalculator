@@ -9,6 +9,18 @@ class KeyboardButton extends StatelessWidget {
   final Operation operation;
   final int crossAxisSize;
 
+  void setCalculatorOperation() {
+    final cubit = GetIt.I.get<CalculatorCubit>();
+    final buttonOperation = operation;
+    if (buttonOperation is OperationInput) {
+      cubit.setInput(buttonOperation.input);
+    } else if (buttonOperation is OperationCalculator) {
+      cubit.setCalculatorOperation(buttonOperation.calculatorInput);
+    } else if (buttonOperation is OperationMathematics) {
+      cubit.setMathematicalOperation(buttonOperation.mathematicalOperation);
+    }
+  }
+
   const KeyboardButton({
     Key? key,
     this.crossAxisSize = 1,
@@ -29,16 +41,7 @@ class KeyboardButton extends StatelessWidget {
           splashColor: Colors.black45,
           highlightColor: Colors.white10,
           onTap: () {
-            final cubit = GetIt.I.get<CalculatorCubit>();
-            final buttonOperation = operation;
-            if (buttonOperation is OperationInput) {
-              cubit.setInput(buttonOperation.input);
-            } else if (buttonOperation is OperationCalculator) {
-              cubit.setCalculatorOperation(buttonOperation.calculatorInput);
-            } else if (buttonOperation is OperationMathematics) {
-              cubit.setMathematicalOperation(
-                  buttonOperation.mathematicalOperation);
-            }
+            setCalculatorOperation();
           },
           child: Center(child: buttonWidget),
         ),
