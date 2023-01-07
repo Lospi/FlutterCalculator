@@ -40,9 +40,7 @@ class KeyboardButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           splashColor: Colors.black45,
           highlightColor: Colors.white10,
-          onTap: () {
-            setCalculatorOperation();
-          },
+          onTap: setCalculatorOperation,
           child: Center(child: buttonWidget),
         ),
       ),
