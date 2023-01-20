@@ -19,10 +19,10 @@ class Calculator extends StatelessWidget {
             create: (context) => GetIt.I.get<CalculatorCubit>(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: const [
                 InputView(),
-                Keyboard(),
+                Expanded(child: Keyboard()),
               ],
             ),
           ),
